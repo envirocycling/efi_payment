@@ -1,5 +1,6 @@
 
 <?php include('templates/template.php'); ?>
+
 <link rel="stylesheet" type="text/css" media="all" href="jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="jsDatePick.min.1.3.js"></script>
 <script src="js/jquery.min.js" type="text/javascript"></script>
@@ -76,10 +77,12 @@
             $id_array = "";
             while ($ctr < $_POST['ctr']) {
                 if (isset($_POST['cv_' . $ctr])) {
-                    $sql_payment_det = mysql_query("SELECT * FROM payment WHERE payment_id='" . $_POST['cv_' . $ctr] . "'");
-                    $rs_payment_det = mysql_fetch_array($sql_payment_det);
+
+                    $sql_payment_det = $con->query("SELECT * FROM payment WHERE payment_id='" . $_POST['cv_' . $ctr] . "'");
+                    $rs_payment_det = $sql_payment_det->fetch_array();
                     
-                    mysql_query("UPDATE payment SET status='generated',reference_number='" . $_POST['ref_number'] . "',transfer_date='" . date("Y/m/d") . "',transfer_time='" . date("h:i:s a") . "',transfer_by='" . $_SESSION['user_id'] . "' WHERE payment_id='" . $_POST['cv_' . $ctr] . "'");
+                    $con->query("UPDATE payment SET status='generated',reference_number='" . $_POST['ref_number'] . "',transfer_date='" . date("Y/m/d") . "',transfer_time='" . date("h:i:s a") . "',transfer_by='" . $_SESSION['user_id'] . "' WHERE payment_id='" . $_POST['cv_' . $ctr] . "'");
+                    
                     echo "<tr>";
                     echo "<td>" . $rs_payment_det['cheque_name'] . "</td>";
                     echo "<td>" . $rs_payment_det['account_number'] . "</td>";

@@ -11,6 +11,19 @@ if($con->connect_error) {
 	echo $con->connect_error;
 }
 
-$base_url = 'http://paymentsystem.efi.net.ph/user-login/maker';
+// $base_url = 'http://paymentsystem.efi.net.ph/user-login/maker';
+
+// $host = "localhost";
+// $username = "root";
+// $password = "";
+// $database = "efi_paydb";
+
+// $con = new mysqli($host, $username, $password, $database);
+
+// if($con->connect_error) {
+// 	echo $con->connect_error;
+// }
+
+// $base_url = 'http://localhost/paymentsystem/user-login/maker';
 
 ?>

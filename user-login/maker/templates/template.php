@@ -10,10 +10,10 @@ include('./../../configPhp.php');
 $query_approved = $con->query("SELECT * FROM payment WHERE status='approved' and bank_code='SBC'");
 $count_approved = $query_approved->num_rows;
 
-$query_printed = $con->query("SELECT count(payment_id) FROM payment WHERE status='approved' and printed='1' and bank_code='SBC'");
+$query_printed = $con->query("SELECT * FROM payment WHERE status='approved' and printed='1' and bank_code='SBC'");
 $count_printed = $query_printed->num_rows;
 
-$query_generated = $con->query("SELECT count(payment_id) FROM payment WHERE status='generated' and maker_approved_noti='0' and bank_code='SBC'");
+$query_generated = $con->query("SELECT * FROM payment WHERE status='generated' and maker_approved_noti='0' and bank_code='SBC'");
 $count_generated = $query_generated->num_rows;
 
 ?>
@@ -96,7 +96,7 @@ include('auto_notification.php');
 
                             <li>
                                 <a href="generate_pos.php" class="">
-                                    Generate Batch POs 
+                                    Printed PO's 
                                     <span class="num">
                                         <?= $count_printed; ?>
                                     </span>

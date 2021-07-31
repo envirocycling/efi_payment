@@ -1,6 +1,40 @@
-<?php
+<?php @session_start();
 include('templates/template.php');
 include("./../../configPhp.php");
+
+$userId = $_SESSION['user_id'];
+$branch = $_SESSION['branch'];
+$sql_user = $con->query("SELECT * from users WHERE user_id='$userId'");
+$row_user = $sql_user->fetch_array();
+
+$sql_branches = $con->query("SELECT * FROM branches");
+
+if (isset($_POST['submit'])) {
+
+    $date_from = $_POST['from'];
+    $date_to = $_POST['to'];
+
+    if ($row_user['class'] == 'external') {
+        $query = "SELECT * FROM payment WHERE status='approved' and date>='" . $_POST['from'] . "' and date<='" . $_POST['to'] . "' and branch_code NOT LIKE '%{$branch}%' and printed='1' and bank_code = 'SBC'";
+    } else {
+        $query = "SELECT * FROM payment WHERE status='approved' and date>='" . $_POST['from'] . "' and date<='" . $_POST['to'] . "' and branch_code like '%{$branch}%' and printed='1'  and bank_code = 'SBC'";
+    }
+
+} else {
+
+    $date_from = date('Y/m/d');
+    $date_to = date('Y/m/d');
+
+    if ($row_user['class'] == 'external') {
+        $query = "SELECT * FROM payment WHERE status='approved' and printed='1' and branch_code NOT LIKE '%{$branch}%' and bank_code = 'SBC'";
+    } else {
+        $query = "SELECT * FROM payment WHERE status='approved' and printed='1' and branch_code LIKE '%{$branch}%' and bank_code = 'SBC'";
+    }
+}
+
+$result = $con->query($query);
+
+
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="jsDatePick.min.1.3.js"></script>
@@ -88,80 +122,37 @@ include("./../../configPhp.php");
     <div id="tab-1" class="tab">
         <h1>Payment Orders</h1>
         <h5>Filtering Options</h5>
+
         <form action="generate_pos.php" method="POST">
-<?php
-if (isset($_POST['submit'])) {
-    ?>
-                Date Range: <input class="inputs" type='text' id='inputField' name='from' value="<?php echo $_POST['from']; ?>" onfocus='date1(this.id);' readonly> TO <input class="inputs" type='text' id='inputField2' name='to' value="<?php echo $_POST['to']; ?>"onfocus='date1(this.id);' readonly>
-                Branch: <select class="select" name="branch">
-    <?php
-    echo "<option name='" . $_POST['branch'] . "'>" . $_POST['branch'] . "</option>";
-    ?>
-                    <option value="">All Branch</option>
-                    <?php
-                    $sql = $con->query("SELECT * FROM branches");
-                    while ($rs = $sql->fetch_array()) {
-                        echo "<option name='" . $rs['branch_name'] . "'>" . $rs['branch_name'] . "</option>";
-                    }
-                    ?>
-                </select>
-                &nbsp;&nbsp;<input class="submit" type="submit" name="submit" value="Submit">
+            <label for="">Date Range:</label>
+            <input class="inputs" type='text' id='inputField' name='from' value="<?= $date_from; ?>" onfocus='date1(this.id);' readonly>
+            TO
+            <input class="inputs" type='text' id='inputField2' name='to' value="<?= $date_to; ?>"onfocus='date1(this.id);' readonly>
 
-    <?php
-} else {
-    ?>
-                Date Range: <input class="inputs" type='text' id='inputField' name='from' value="<?php echo date("Y/m/d"); ?>" onfocus='date1(this.id);' readonly> TO <input class="inputs" type='text' id='inputField2' name='to' value="<?php echo date("Y/m/d"); ?>"onfocus='date1(this.id);' readonly>
-                Branch: <select class="select" name="branch">
-                    <option value="">All Branch</option>
+            <label for="">Branch:</label>
+            <select class="select" name="branch">
+                <option value="">All Branches</option>
+                <?php while($rs = $sql_branches->fetch_array()): ?>
+                <option value="<?= $rs['branch_name']; ?>"><?= $rs['branch_name']; ?></option>
+                <?php endwhile;?>
+            </select>
 
-    <?php
-
-    $sql = $con->query("SELECT * FROM branches");
-    while ($rs = $sql->fetch_array()) {
-        echo "<option name='" . $rs['branch_name'] . "'>" . $rs['branch_name'] . "</option>";
-    }
-    ?>
-                </select>
-                &nbsp;&nbsp;<input class="submit" type="submit" name="submit" value="Submit">
-    <?php
-}
-?>
+            <button type="submit" name="submit">Filter</button>
         </form>
+
         <br>
+
         <form name='myform' onsubmit='return OnSubmitForm();' method='POST'>
             <table class="data display datatable" id="example">
                 <article>
 
 <?php
-@session_start();
-$userId = $_SESSION['user_id'];
 
-$sql_user = $con->query("SELECT * from users WHERE user_id='$userId'");
-$row_user = $sql_user->fetch_array();
-
-if (isset($_POST['submit'])) {
-
-    if ($row_user['class'] == 'external') {
-        $query = "SELECT * FROM payment WHERE status='approved' and date>='" . $_POST['from'] . "' and date<='" . $_POST['to'] . "' and branch_code NOT LIKE '%" . $_SESSION['branch'] . "%' and printed='1'  and bank_code = 'SBC'";
-    } else {
-        $query = "SELECT * FROM payment WHERE status='approved' and date>='" . $_POST['from'] . "' and date<='" . $_POST['to'] . "' and branch_code like '%" . $_SESSION['branch'] . "%' and printed='1'  and bank_code = 'SBC'";
-    }
-
-} else {
-    if ($row_user['class'] == 'external') {
-        $query = "SELECT * FROM payment WHERE status='approved' and printed='1' and branch_code NOT LIKE '%" . $_SESSION['branch'] . "%' and bank_code = 'SBC'";
-    } else {
-        $query = "SELECT * FROM payment WHERE status='approved' and printed='1' and branch_code LIKE '%" . $_SESSION['branch'] . "%' and bank_code = 'SBC'";
-    }
-}
-
-$result = $con->query($query);
 
 echo "<thead>";
 echo "<th></th>";
 echo "<th>po #</th>";
 echo "<th>Branch Code</th>";
-//                    echo "<th>Ref. Number</th>";
 echo "<th>Supplier Name</th>";
 echo "<th>Acct. Name</th>";
 echo "<th>Acct. Number</th>";
@@ -169,16 +160,14 @@ echo "<th>Voucher No.</th>";
 echo "<th>Amount</th>";
 echo "<th>Date Submit</th>";
 echo "<th>Date Approved</th>";
-//                    echo "<th>Status</th>";
 echo "<th>Action</th>";
 echo "</thead>";
 $ctr = 0;
-while ($row = $result->fetch_array()) {
+while ($row = $result->fetch_assoc()) {
     echo "<tr>";
     echo "<td><input id='cv_" . $ctr . "' class='checkbox' type='checkbox' name='cv_" . $ctr . "' value='" . $row['payment_id'] . "'></td>";
     echo "<td>" . $row['payment_id'] . "</td>";
     echo "<td>" . $row['branch_code'] . "</td>";
-//                        echo "<td>" . $row['reference_number'] . "</td>";
     echo "<td>" . $row['supplier_name'] . "</td>";
     echo "<td>" . $row['account_name'] . "</td>";
     echo "<td>" . $row['account_number'] . "</td>";
@@ -218,7 +207,7 @@ while ($row = $result->fetch_array()) {
                         Reference No.: <input class="ref_num" type="text" name="ref_number" value="">
                     </td>
                 </tr>
-                <!-- <input type="submit" name="Submit" onclick="return confirm('All data will mark as proccessed when you click OK, Are you sure you want to generate this batch?')"  value="Generate Batch"> -->
+                
                 <tr>
                     <td>
                         <button onclick="return confirm('All data will mark as proccessed, Once you click the [Ok] you cant undo this action.')">Submit</button>
