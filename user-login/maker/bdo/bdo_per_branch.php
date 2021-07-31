@@ -32,7 +32,7 @@ foreach($branches as $key => $branch) {
         <?php
             $name = $branch['name'];
             $count = $branch['count'];
-            $url = "http://localhost/paymentsystem/user-login/maker/bdo/bdo_index.php?branch=".$name;
+            $url = "{$base_url}/bdo/bdo_index.php?branch=".$name;
         ?>
 
         <li class="tab-branch ">

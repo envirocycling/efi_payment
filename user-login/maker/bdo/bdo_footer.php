@@ -1,4 +1,4 @@
-        <?php $base_url2 = "http://localhost/paymentsystem/user-login/maker"; ?>
+        <?php include './../../../configPhp.php'; ?>
         <!-- Sidenav Menu -->
         <style>
             .sidenav-menu {
@@ -33,11 +33,11 @@
 
             <ul class="sidenav-menu">
                 <li class="sidenav-menu-item">
-                    <a href="<?= $base_url2; ?>/index_new.php?branch=Pampanga">SBC</a>
+                    <a href="<?= $base_url; ?>/index_new.php?branch=Pampanga">SBC</a>
                 </li>
 
                 <li class="sidenav-menu-item active">
-                    <a href="<?= $base_url2; ?>/bdo/bdo_index.php?branch=Pampanga" >BDO </a>
+                    <a href="<?= $base_url; ?>/bdo/bdo_index.php?branch=Pampanga" >BDO </a>
                 </li>
 
                 <!-- <li class="sidenav-menu-item">
