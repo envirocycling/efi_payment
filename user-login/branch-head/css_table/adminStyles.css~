@@ -1,0 +1,724 @@
+/*----reservation--*/
+#tentativeBookingList{
+border-style:solid;
+float:right;
+width:400px;
+background-color: gray;
+color:white;
+text-align: center;
+padding:0px;
+border-color:gray;
+padding:0px;
+
+
+}
+	
+#paramSender{
+position:relative;
+top:10px;		
+}
+
+#reservationSummary{
+border-style:hidden;
+padding:0px;
+text-align:left;	
+background-color:black;
+width:400px;
+position:absolute;
+left:350px;
+color:white;
+	
+	}
+
+#dates{
+	
+
+	}
+
+/*----calendar--*/
+
+
+#secondset{
+		position:absolute;
+			top:600px;
+	border-style:hidden;
+	
+	width:850px;
+
+	}
+	#firstset{
+		position:absolute;
+			top:400px;
+	border-style:hidden;
+	width:850px;
+
+
+	}
+	
+#thirdset{
+	
+	position:absolute;
+	top:790px;
+	border-style:hidden;
+	width:850px;
+	}
+#month1{
+
+float:left;	
+
+	
+	}
+	#month2{
+
+float:left;	
+	
+	}
+	#month3{
+
+float:left;	
+	
+	}
+#month5{
+	float:left;	
+	}
+	#month6{
+	float:left;	
+	}
+	#month7{
+	float:left;	
+	}
+		#month8{
+	float:left;	
+	}
+
+	
+#month9{
+
+float:left;	
+	
+	}
+		#month10{
+
+float:left;	
+	
+	}
+	#month11{
+
+float:left;	
+	
+	}
+
+	
+#yearSelect{
+position:absolute;	
+
+	}
+	#kalendaryo{
+border-style:hidden;
+margin-top: 30px;	
+
+		}
+#nextAndBook{
+	
+position:absolute;
+border-style:hidden;
+top:349px;
+right:320px;
+
+	
+	}
+	
+	
+	
+	#secondset2{
+		position:absolute;
+			top:480px;
+	border-style:hidden;
+	
+	width:850px;
+
+	}
+	#firstset2{
+		position:absolute;
+			top:250px;
+	border-style:hidden;
+	width:850px;
+
+
+	}
+	
+#thirdset2{
+	
+	position:absolute;
+	top:760px;
+	border-style:hidden;
+	width:850px;
+	}
+/*-----*/
+
+#editRoomForm{
+border-style:hidden;
+position:absolute;
+top:250px;
+left: 600px;	
+	
+	}
+
+#adminLogin{
+color:white;
+font-size: 20px;	
+	
+	}
+
+
+
+body	{
+background: url(../css/images/login/login_bg.jpg) top center;
+color:black;
+font-family: Courier;
+	
+	}
+
+
+#reservationDetails{
+position:absolute;
+left:50px;
+right:50px;
+top:250px;
+font-size:20px;
+color:black;
+border-style:hidden;
+text-align:center;
+
+	
+	
+	
+	}
+#reservationList{
+position:absolute;
+left:5px;
+
+top:170px;
+font-size:30px;
+color:black;
+border-style:hidden;
+
+
+padding-left:220px;
+
+}
+#roomsList{
+position:absolute;
+left:50px;
+right:50px;
+font-size:30px;
+
+border-style:hidden;
+text-align:center;
+
+padding-left:250px;
+
+color:black;
+}
+#container{
+
+border: hidden;
+margin: 100px 150px 100px 150px;
+padding: 50px;
+position: absolute;
+margin-top: 10px;
+height:800px;
+}
+
+#banner{
+background: url('../css/main/banner.png') no-repeat center center;
+padding: 70px;
+text-align: center;
+margin-top:-48px;
+position:relative;
+width:800px;
+
+
+}
+div .navMain{
+	
+font-size:12px;	
+position:relative;
+	}
+.nav {
+height:35px;
+background: url('../css/navigation/bg.gif') repeat-x;
+position:relative;
+font-family:arial, verdana, sans-serif;
+font-size:11px;
+width:100%;
+z-index:100;
+margin:0;
+padding:0;
+
+}
+
+.nav .table {
+display:table;
+margin:0 auto;
+}
+
+.nav .select,
+.nav .current {
+margin:0;
+padding:0;
+list-style:none;
+display:table-cell;
+white-space:nowrap;
+}
+
+.nav li {
+margin:0;
+padding:0;
+height:auto;
+float:left;
+}
+
+.nav .select a {
+display:block;
+height:35px;
+float:left;
+font-weight:bold;
+background: url('../css/navigation/bg.gif');
+padding:0 30px 0 30px;
+text-decoration:none;
+line-height:35px;
+white-space:nowrap;
+color:#dfdfdf;
+}
+
+
+.nav .select a:hover,
+.nav .select li:hover a {
+background: url('../css/navigation/hover.gif');
+padding:0 0 0 15px;
+cursor:pointer;
+color:#2b3238;
+}
+
+.nav .select a b{
+	font-weight:bold;
+	}
+
+.nav .select a:hover b,
+.nav .select li:hover a b {
+display:block;
+float:left;
+padding:0 30px 0 15px;
+background:url('../css/navigation/hover.gif') right top;
+cursor:pointer;
+}
+
+.nav .select_sub {
+display:none;
+}
+
+/* IE6 only */
+.nav table {
+border-collapse:collapse;
+margin:-1px;
+font-size:1em;
+width:0;
+height:0;
+
+}
+
+.nav .sub {
+display:table;
+margin:0 auto;
+padding:0;
+list-style:none;
+
+}
+
+.nav .sub_active .current_sub a,
+.nav .sub_active a:hover {
+background:transparent;
+color:#2b3238;
+}
+
+.nav .select :hover .select_sub,
+.nav .current .show {
+display:block;
+position:absolute;
+width:100%;
+top:35px;
+background:url('../css/navigation/back.gif');
+padding:0;
+z-index:100;
+left:0;
+text-align:center;
+}
+
+.nav .current .show {
+z-index:10;
+}
+
+.nav .select :hover .sub li a,
+.nav .current .show .sub li a {
+display:block;
+float:left;
+background:transparent;
+padding:0 10px 0 10px;
+margin:0;
+white-space:nowrap;
+border:0;
+color:#2b3238;
+}
+
+.nav .current .sub li.sub_show a {
+color:#2b3238;
+cursor:default;
+}
+
+.nav .select .sub li a {
+	font-weight:normal;
+}
+
+.nav .select :hover .sub li a:hover,
+.nav .current .sub li a:hover {
+visibility:visible;
+color:#909090;
+}
+
+.navMain {
+left:-4px;
+height:35px;
+background: url('../css/navigation/bg.gif') repeat-x;
+position:relative;
+font-family:arial, verdana, sans-serif;
+font-size:7px;
+width:100.9%;
+z-index:100;
+margin:0;
+padding:0;
+}
+
+.navMain .table {
+display:table;
+margin:0 auto;
+}
+
+.navMain .select,
+.navMain .current {
+margin:0;
+padding:0;
+list-style:none;
+display:table-cell;
+white-space:nowrap;
+}
+
+.navMain li {
+margin:0;
+padding:0;
+height:auto;
+float:left;
+}
+
+.navMain .select a {
+display:block;
+height:35px;
+float:left;
+font-weight:bold;
+background: url('../css/navigation/bg.gif') no-repeat;
+padding:0 20px 0 24px;
+text-decoration:none;
+line-height:35px;
+white-space:nowrap;
+color:#dfdfdf;
+}
+
+
+.navMain .select a:hover,
+.navMain .select li:hover a {
+background: url('../css/navigation/hover.gif') no-repeat;
+padding:0 0 0 10px;
+cursor:pointer;
+color:#2b3238;
+}
+
+.navMain .select a b{
+	font-weight:bold;
+	}
+
+.navMain .select a:hover b,
+.navMain .select li:hover a b {
+display:block;
+float:left;
+padding:0 30px 0 15px;
+background:url('../css/navigation/hover.gif') right top;
+cursor:pointer;
+}
+
+.navMain .select_sub {
+display:none;
+}
+
+.navMain table {
+border-collapse:collapse;
+margin:-1px;
+font-size:1em;
+width:0;
+height:0;
+}
+
+.navMain .sub {
+display:table;
+margin:0 auto;
+padding:0;
+list-style:none;
+}
+
+.navMain .sub_active .current_sub a,
+.navMain .sub_active a:hover {
+background:transparent;
+color:#2b3238;
+}
+
+.navMain .select :hover .select_sub,
+.navMain .current .show {
+display:block;
+position:absolute;
+width:100%;
+top:35px;
+background:url('../css/navigation/back.gif');
+padding:0;
+z-index:100;
+left:0;
+text-align:center;
+}
+
+.navMain .current .show {
+z-index:10;
+}
+
+.navMain .select :hover .sub li a,
+.navMain .current .show .sub li a {
+display:block;
+float:left;
+background:transparent;
+padding:0 10px 0 10px;
+margin:0;
+white-space:nowrap;
+border:0;
+color:#2b3238;
+}
+
+.navMain .current .sub li.sub_show a {
+color:#2b3238;
+cursor:default;
+}
+
+.navMain .select .sub li a {
+	font-weight:normal;
+}
+
+.navMain .select :hover .sub li a:hover,
+.navMain .current .sub li a:hover {
+visibility:visible;
+color:#909090;
+}
+
+#content{
+border: solid green;
+margin: 10px 0 10px 0;
+padding: 10px;
+}
+
+
+/*  LOGIN -------------------------------------------------------------------------------- */	
+
+#login-bg	{
+	background: url(../css/images/login/login_bg.jpg)  top center;
+	}
+#login-holder	{
+	margin: 0px auto 0 auto;
+	width: 508px;
+	}
+#loginbox	{
+	background: url(../css/images/login/loginbox_bg.png) no-repeat;
+	font-size: 12px;
+	height: 212px;
+	line-height: 12px;
+	padding-top: 60px;
+	position: relative;
+	width: 508px;
+	}
+#forgotbox	{
+	background: url(../css/images/login/loginbox_bg.png) no-repeat;
+	display: none;
+	font-size: 12px;
+	height: 212px;
+	line-height: 12px;
+	padding-top: 60px;
+	position: relative;
+	width: 508px;
+	}
+#login-inner	{
+	color: #161616;
+	font-family: Tahoma;
+	font-size: 13px;
+	line-height: 12px;
+	margin: 0 auto;
+	width: 310px;
+	}
+#login-inner label	{
+	color: #161616;
+	cursor: pointer;
+	font-family: Tahoma;
+	font-weight: bold;
+	line-height: 12px;
+	padding-left: 10px;
+	 
+	}
+ .checkbox-size	{
+	width:13px;
+	height:13px;
+	margin: 5px 0;
+	 
+	}	
+#login-inner th	{
+	padding: 0 0 6px 0;
+	text-align: left;
+	width: 95px;
+	}
+#login-inner td	{
+	padding: 0 0 6px 0;
+	}
+.login-inp	{
+	background: url(../css/images/login/inp_login.gif) no-repeat;
+	border: none;
+	color: #fff;
+	font-size: 16px;
+	height: 28px;
+	padding: 6px 6px 0 10px;
+	width: 204px;
+	}
+#logo-login	{
+	float: left;
+	height: 35px;
+	margin: 145px 0 0 15px;
+	}
+a.forgot-pwd	{
+	bottom: 30px;
+	color: #161616;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 12px;
+	position: absolute;
+	right: 40px;
+	}
+a:hover.forgot-pwd	{
+	color: #fff;
+	}
+#forgotbox-text	{
+	color: #161616;
+	font-family: Tahoma;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 12px;
+	margin: 0 auto 40px auto;
+	width: 380px;
+	}
+#forgot-inner	{
+	color: #161616;
+	font-family: Tahoma;
+	font-size: 13px;
+	line-height: 12px;
+	margin: 0 auto;
+	width: 330px;
+	}
+#forgot-inner label	{
+	color: #161616;
+	cursor: pointer;
+	font-family: Tahoma;
+	font-weight: bold;
+	line-height: 12px;
+	padding-left: 10px;
+	}
+#forgot-inner th	{
+	padding: 0 0 6px 0;
+	text-align: left;
+	width: 110px;
+	}
+#forgot-inner td	{
+	padding: 0 0 6px 0;
+	}
+a.back-login	{
+	background: url(../css/images/login/icon_back_login.gif) no-repeat 0 4px;
+	bottom: 30px;
+	color: #161616;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 12px;
+	padding: 0 0 0 10px;
+	position: absolute;
+	right: 40px;
+	}
+a:hover.back-login	{
+	color: #fff;
+	}
+.submit-login	{
+	background: url(../css/images/login/submit_login.gif) no-repeat;
+	border: none;
+	cursor: pointer;
+	display: block;
+	height: 29px;
+	text-indent: -3000px;
+	width: 73px;
+	}
+.submit-login:hover	{
+	background: url(../css/images/login/submit_login.gif) no-repeat 0 -29px;
+	}
+	
+	
+	/*-------------------------------Calendar-------------------*/
+	
+
+.calendar_date					{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 14px; color : black; }
+a.calendar_date					{ color: #0000aa; text-decoration: none; }
+a.calendar_date:hover			{ color: #000080; text-decoration: underline; }
+
+.calendar_navigation			{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 14px; color : #222222; }
+a.calendar_navigation			{ color: #0000aa; text-decoration: none; }
+a.calendar_navigation:hover		{ color: #000080; text-decoration: underline; }
+
+.calendar_day					{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 11px; color : #222222; }
+a.calendar_day					{ color: #0000aa; text-decoration: none; }
+a.calendar_day:hover			{ color: #000080; text-decoration: underline; }
+
+.calendar_date_number			{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 10px; color : #222222; }
+a.calendar_date_number			{ color: #0000aa; text-decoration: none; }
+a.calendar_date_number:hover	{ color: #000080; text-decoration: underline; }
+
+.calendar_date_small					{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 12px; color : #222222; }
+a.calendar_date_small					{ color: #0000aa; text-decoration: none; }
+a.calendar_date_small:hover			{ color: #000080; text-decoration: underline; }
+
+.calendar_navigation_small			{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 12px; color : #222222; }
+a.calendar_navigation_small			{ color: #0000aa; text-decoration: none; }
+a.calendar_navigation_small:hover		{ color: #000080; text-decoration: underline; }
+
+.calendar_day_small					{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 10px; color : #222222; }
+a.calendar_day_small					{ color: #0000aa; text-decoration: none; }
+a.calendar_day_small:hover			{ color: #000080; text-decoration: underline; }
+
+.calendar_date_number_small			{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 9px; color : #222222; }
+a.calendar_date_number_small			{ color: #0000aa; text-decoration: none; }
+a.calendar_date_number_small:hover	{ color: #000080; text-decoration: underline; }
+
+table.rounded td 		{ -moz-border-radius: 10px 10px 10px 10px; }
+table.rounded5 td 		{ -moz-border-radius: 5px 5px 5px 5px; }
+table.notrounded td 		{ -moz-border-radius: 0px 0px 0px 0px; }
+
+.text					{ font-family : Verdana, Arial, Helvetica, sans-serif; font-size : 13px; color : white; }
+a.text					{ color: #0000aa; text-decoration: none; }
+a.text:hover			{ color: #222222; text-decoration: underline; }
+
