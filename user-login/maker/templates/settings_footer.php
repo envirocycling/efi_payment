@@ -41,14 +41,13 @@ if (strlen(strstr($agent, 'Firefox')) > 0) {
 }
 ?>
 
-<?php $base_url = "http://localhost:8888/paymentsystem/"; ?>
 
         <li class="sidenav_menu">
-            <a href="<?= $base_url; ?>user-login/maker/index_new.php?branch=Pampanga">SBC</a>
+            <a href="<?= $base_url; ?>/index_new.php?branch=Pampanga">SBC</a>
         </li>
 
         <li class="sidenav_menu">
-            <a href="<?= $base_url; ?>user-login/maker/bdo_index.php?branch=Pampanga" >BDO</a>
+            <a href="<?= $base_url; ?>/bdo_index.php?branch=Pampanga" >BDO</a>
         </li>
 
         <li class="sidenav_menu active">

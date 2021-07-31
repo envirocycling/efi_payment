@@ -2,7 +2,7 @@
 </div>
 </div>
 
-<?php $base_url = "http://localhost/paymentsystem/user-login/maker"; ?>
+<?php include './../../configPhp.php'; ?>
 
 <style>
             .sidenav-menu {

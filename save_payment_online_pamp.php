@@ -40,11 +40,14 @@ if ($account_name == '' || $account_number ='') {
         $ctr = 0;
 
         while ($ctr < $_POST['ctr_adj']) {
+
             $adj_type = $_POST['adj_type'.$ctr];
             $desc = $_POST['desc'.$ctr];
             $amount = $_POST['amount'.$ctr];
-            mysql_query("INSERT INTO `payment_adjustment`(`payment_id`, `adj_type`, `desc`, `amount`)
+
+            $con->query("INSERT INTO `payment_adjustment`(`payment_id`, `adj_type`, `desc`, `amount`)
         VALUES ('$payment_id','$adj_type','$desc','$amount')");
+            
             $ctr++;
         }
 
