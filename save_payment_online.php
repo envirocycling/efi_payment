@@ -1,4 +1,4 @@
-<?php
+<?php date_default_timezone_set("Asia/Manila");
 include 'configPhp.php';
 
 $payment_id = $_POST['payment_id'];

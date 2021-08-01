@@ -1,4 +1,4 @@
-<?php date_default_timezone_set("Asia/Singapore");
+<?php date_default_timezone_set("Asia/Manila");
 include("configPhp.php");
 
 $myDate = $_POST['date'];
