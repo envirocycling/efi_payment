@@ -147,8 +147,6 @@ $result = $con->query($query);
                 <article>
 
 <?php
-
-
 echo "<thead>";
 echo "<th></th>";
 echo "<th>po #</th>";
@@ -190,24 +188,27 @@ while ($row = $result->fetch_assoc()) {
 ?>
             </table>
             <table>
+
                 <tr>
                     <td>
                         <input type="hidden" name="ctr" value="<?php echo $ctr; ?>">
                         Select All: <input type="checkbox" id="selectall">
                     </td>
                 </tr>
+
                 <tr>
                     <td>
                         <input class="radio" type="radio" name="operation" value="1" checked>Mark as Generated
                         <input class="radio" type="radio" name="operation" value="2">Generate Batch
                     </td>
                 </tr>
+
                 <tr>
                     <td>
                         Reference No.: <input class="ref_num" type="text" name="ref_number" value="">
                     </td>
                 </tr>
-                
+
                 <tr>
                     <td>
                         <button onclick="return confirm('All data will mark as proccessed, Once you click the [Ok] you cant undo this action.')">Submit</button>

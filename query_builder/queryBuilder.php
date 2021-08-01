@@ -1,285 +1,39 @@
-<?php
+<?php 
 
-include_once 'db/connection.php';
-include_once 'helpers/helpers.php';
+function getPendingPayments($bank, $branch, $start, $end) {
 
-function fetch($query, $params) {
+	include './../../configPhp.php';
 
-	global $pdo;
-
-	$q = $pdo->prepare($query);
-	$q->execute($params);
-	return $q->fetchAll();
-
+	$sql = $con->query("SELECT * FROM `payment` WHERE `branch_code` LIKE '%{$branch}%' AND bank_code LIKE '%{$bank}%' AND (`date`>='{$start}' AND `date`<='{$end}') AND `status`='';");
+	// Fetch all
+	return $sql->fetch_all(MYSQLI_ASSOC);
+	// Free result set
+	$sql->free_result();
+	$con->close();
 }
 
-function getFirst($query, $params) {
+function getGeneratedPayments($bank, $branch, $start, $end) {
 
-	global $pdo;
+	include './../../configPhp.php';
 
-	$q = $pdo->prepare($query);
-	$q->execute($params);
-	$response = $q->fetchAll();
-
-	if (count($response) > 0) {
-		return $response[0];
-	}
-
-	return null;
-
+	$sql = $con->query("SELECT * FROM `payment` WHERE `branch_code` LIKE '%{$branch}%' AND bank_code LIKE '%{$bank}%' AND (`date`>='{$start}' AND `date`<='{$end}') AND `status`='generated' AND `printed`='1';");
+	// Fetch all
+	return $sql->fetch_all(MYSQLI_ASSOC);
+	// Free result set
+	$sql->free_result();
+	$con->close();
 }
 
-function getWhere($table, $field, $value) {
-	$query = "SELECT * FROM {$table} WHERE {$field} = ? LIMIT 1;";
-	return fetch($query, $value);
+function getCancelledPayments($bank, $branch, $start, $end) {
+
+	include './../../configPhp.php';
+
+	$sql = $con->query("SELECT * FROM `payment` WHERE `branch_code` LIKE '%{$branch}%' AND bank_code LIKE '%{$bank}%' AND (`date`>='{$start}' AND `date`<='{$end}') AND (`status`='cancelled' OR `status`='disapproved');");
+	// Fetch all
+	return $sql->fetch_all(MYSQLI_ASSOC);
+	// Free result set
+	$sql->free_result();
+	$con->close();
 }
 
-function insert($table, $data) {
-
-	global $pdo;
-
-	$values = array();
-
-	foreach (array_keys($data) as $field) {
-		$values[] = ":{$field}";
-	}
-
-	$_values = implode(',', $values);
-	$_fields = implode(', ', array_keys($data));
-
-	$sql = "INSERT INTO {$table} ({$_fields}) VALUES ({$_values}) ";
-
-	$stmt = $pdo->prepare($sql);
-
-	return $stmt->execute($data);
-
-}
-
-function update($table, $data, $whereField, $whereValue) {
-
-	global $pdo;
-
-	$formattedFields = array();
-
-	foreach (array_keys($data) as $field) {
-
-		$formattedFields[] = "{$field}=:{$field}";
-
-	}
-
-	$fields = implode(', ', $formattedFields);
-
-	$sql = "UPDATE {$table} SET {$fields} WHERE {$whereField} = {$whereValue}";
-
-	$stmt = $pdo->prepare($sql);
-
-	return $stmt->execute($data);
-
-}
-
-function createOrUpdate($table, $data, $whereExisting, $updateField = 'id') {
-
-	$where = "";
-	$ctr = 0;
-
-	if (count($whereExisting) > 1) {
-
-		foreach ($whereExisting as $key => $value) {
-
-			if ($ctr == (count($whereExisting) - 1)) {
-				$where .= "`{$key}` = '{$value}'";
-			} else {
-				$where .= "`{$key}` = '{$value}' AND ";
-			}
-
-			$ctr++;
-		}
-	}
-
-	$found = getFirst("SELECT * FROM {$table} WHERE {$where}", null);
-
-	if ($found) {
-		//update
-		return update($table, $data, $updateField, $found->$updateField);
-	} else {
-		//insert
-		return insert($table, $data);
-	}
-
-}
-
-function delete($table, $whereField, $whereValue) {
-
-	global $pdo;
-
-	$sql = "DELETE FROM {$table}  WHERE {$whereField} = {$whereValue}";
-
-	$stmt = $pdo->prepare($sql);
-
-	return $stmt->execute($data);
-
-}
-
-// Query builder
-function getGrades() {
-	$query = "SELECT * FROM wp_codes GROUP BY major_class ORDER BY wp_code desc;";
-	return fetch($query, null);
-}
-
-function getBranches() {
-	return fetch("SELECT * FROM `branches`;", null);
-}
-
-function getTargets() {
-
-	global $month, $branch;
-
-	$query = "SELECT sum(target) as target,wp_grade FROM monthly_target WHERE `month` = '{$month}' and branch like '%{$branch}%' GROUP BY wp_grade;";
-	return fetch($query, null);
-}
-
-function getTargetsAll() {
-
-	global $branch, $month;
-
-	$query = "SELECT sum(target) as target,wp_grade FROM monthly_target WHERE `month` = '{$month}' AND (`branch` LIKE '%{$branch}%' AND `branch` != '') GROUP BY wp_grade;";
-	return fetch($query, null);
-}
-
-function getActuals() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT weight,wp_grade FROM sales WHERE (branch LIKE '%$branch%' AND branch != '') AND (date >= '$from' AND date <='$to') AND wp_grade != '' AND `weight` != 0;";
-
-	//dd($query);
-
-	return fetch($query, null);
-}
-
-function getActualsTipco() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT weight,wp_grade,delivered_to FROM sales WHERE (`branch` LIKE '%{$branch}%' AND `branch` != '') AND (`date` >= '{$from}' AND `date` <= '{$to}') AND wp_grade != '';";
-
-	//dd($query);
-
-	return fetch($query, null);
-}
-
-function getActualBranches() {
-
-	global $from, $to;
-
-	$query = "SELECT DISTINCT `branch` FROM sales WHERE branch != '' AND (date >= '$from' AND date <='$to') AND wp_grade != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getClientSalesBranches() {
-
-	global $deliver_to, $from, $to;
-
-	$query = "SELECT DISTINCT `branch` FROM sales WHERE branch != '' AND (date >= '$from' AND date <='$to') AND `delivered_to` LIKE '%{$deliver_to}%' AND wp_grade != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getActualByBranch($branch) {
-
-	global $from, $to;
-
-	$query = "SELECT weight,wp_grade FROM sales WHERE branch LIKE '%$branch%' AND (date >= '$from' AND date <='$to') AND wp_grade != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getClientSalesByBranch($branch) {
-
-	global $deliver_to, $from, $to;
-
-	$query = "SELECT weight,wp_grade FROM sales WHERE branch LIKE '%$branch%' AND (date >= '$from' AND date <='$to') AND `delivered_to` LIKE '%{$deliver_to}%' AND wp_grade != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getOutgoingDates() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT DISTINCT `date` as date FROM `outgoing` WHERE (`branch` LIKE '%{$branch}%' AND `branch` != '') AND (`date` >= '{$from}' AND `date` <= '{$to}') AND `wp_grade` != '' AND `weight` != 0 ORDER BY DATE ASC;";
-	return fetch($query, null);
-}
-
-function getSalesDates() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT DISTINCT `date` as date FROM `sales` where (`branch` LIKE '%{$branch}%' AND `branch` != '') AND (`date` >= '{$from}' AND `date` <= '{$to}') AND `wp_grade` != '' AND `weight` != 0 ORDER BY DATE ASC;";
-
-	return fetch($query, null);
-}
-
-function getSales() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT weight, `date`, `wp_grade` FROM `sales` WHERE (`branch` LIKE '%{$branch}%' AND branch != '') AND (`date` >= '{$from}' AND `date` <= '{$to}') AND `wp_grade` != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getClientSalesDates() {
-
-	global $deliver_to, $from, $to;
-
-	$query = "SELECT DISTINCT `date` as date FROM `sales` where `branch` != '' AND (`date` >= '{$from}' AND `date` <= '{$to}') AND `delivered_to` LIKE '%{$deliver_to}%'  AND `wp_grade` != '' AND `weight` != 0 ORDER BY DATE ASC;";
-	return fetch($query, null);
-}
-
-function getClientSales() {
-
-	global $deliver_to, $from, $to;
-
-	$query = "SELECT weight, `date`, `wp_grade` FROM `sales` WHERE `branch` != '' AND (`date` >= '{$from}' AND `date` <= '{$to}') AND delivered_to LIKE '%{$deliver_to}%' AND `wp_grade` != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getOutgoings() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT `weight`, `date`, `wp_grade` FROM `outgoing` WHERE (`branch` LIKE '%{$branch}%' AND  `branch` != '') AND (`date` >= '{$from}' AND `date` <= '{$to}') AND `wp_grade` != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getReceivingDates() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT DISTINCT `date_delivered` as date FROM `sup_deliveries` WHERE (`branch_delivered` LIKE '%{$branch}%' AND `branch_delivered` != '') AND (`date_delivered` >= '{$from}' AND `date_delivered` <= '{$to}') AND `wp_grade` !='' AND `weight` != 0 ORDER BY `date_delivered` ASC";
-	return fetch($query, null);
-}
-
-function getReceivings() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT weight,date_delivered as date , `wp_grade` FROM `sup_deliveries` WHERE (`branch_delivered` like '%{$branch}%' AND `branch_delivered` != '') AND (`date_delivered` >= '{$from}' AND `date_delivered` <= '{$to}') AND `wp_grade` != '' AND `weight` != 0;";
-
-	return fetch($query, null);
-}
-
-function getReceivingsAll() {
-
-	global $branch, $from, $to;
-
-	$query = "SELECT weight,`wp_grade` FROM `sup_deliveries` WHERE (`branch_delivered` LIKE '%{$branch}%' AND `branch_delivered` != '') AND (`date_delivered` >= '{$from}' AND `date_delivered` <= '{$to}') AND `weight` != 0 AND `wp_grade` != '';";
-
-	return fetch($query, null);
-}
-
-?>
+ ?>
