@@ -15,7 +15,7 @@ if($posted) {
         $message = 'Voucher # must not empty'; 
     } else {
         
-        $q = $conn->query("SELECT * FROM `payment` WHERE `voucher_no` LIKE '{$voucher}'");
+        $q = $con->query("SELECT * FROM `payment` WHERE `voucher_no` LIKE '{$voucher}'");
         $num_rows = $q->num_rows;
         
         if($num_rows >= 1) {
