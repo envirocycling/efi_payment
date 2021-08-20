@@ -40,6 +40,10 @@
                     <a href="<?= $base_url; ?>/bdo/bdo_index.php?branch=Pampanga" >BDO </a>
                 </li>
 
+                <li class="sidenav-menu-item">
+                    <a href="<?= $base_url; ?>/other/other_index.php?branch=Pampanga" >OTHER <br> BANK </a>
+                </li>
+
                 <!-- <li class="sidenav-menu-item">
                     <a href="settings.php" class="ico8">Settings</a>
                 </li> -->
