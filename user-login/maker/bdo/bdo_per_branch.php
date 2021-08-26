@@ -8,13 +8,14 @@ $branches = [
     ["name" => "Kaybiga", 'count' => 0],
     ["name" => "Cainta", 'count' => 0],
     ["name" => "Calamba", 'count' => 0],
+    ["name" => "Calumpit", 'count' => 0],
     ["name" => "Mangaldan", 'count' => 0],
     ["name" => "Cavite", 'count' => 0],
     ["name" => "Silang", 'count' => 0],
     ["name" => "Pasay", 'count' => 0],
     ["name" => "San Pedro", 'count' => 0],
-    ["name" => "San Fernando", 'count' => 0],
-    ["name" => "Calumpit", 'count' => 0]
+    ["name" => "San Fernando", 'count' => 0]
+
 ];
 
 foreach($branches as $key => $branch) {
