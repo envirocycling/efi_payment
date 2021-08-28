@@ -113,19 +113,19 @@ $ctr = 0;
 
                                 <div class="radio-group">
                                     <div class="radio-group__item">
-                                        <input class="radio" type="radio" name="operation" value="1" id="_1" checked />
-                                        <label for="_1">Mark as Generated</label>
+                                        <input class="radio" type="radio" name="operation" value="1" id="__1" checked />
+                                        <label for="__1">Mark as Generated</label>
                                     </div>
 
                                     <div class="radio-group__item">
-                                        <input class="radio" type="radio" name="operation" value="2" id="_2" />
-                                        <label for="_2">Generate Batch</label>
+                                        <input class="radio" type="radio" name="operation" value="2" id="__2" />
+                                        <label for="__2">Generate Batch</label>
                                     </div>
                                 </div>
                                 
                                 <div class="radio-group__item">
-                                    <label for="_ref">Reference #: </label>
-                                    <input class="ref_num" type="text" name="ref_number" value="" id="_ref" />
+                                    <label for="__ref">Reference #: </label>
+                                    <input class="ref_num" type="text" name="ref_number" value="" id="__ref" />
                                 </div>
                                 
                                 <button class="radio-group__btn" onclick="return confirm('All data will mark as proccessed, Once you click the [Ok] you cant undo this action.')">Generate</button>
