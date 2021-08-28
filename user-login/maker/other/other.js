@@ -64,10 +64,10 @@ function date1(str) {
 
 function OnSubmitForm() {
     if (document.myform.operation[0].checked == true) {
-        document.myform.action = "bdo_mark_as_generated.php";
+        document.myform.action = "other_mark_as_generated.php";
     }
     else if (document.myform.operation[1].checked == true) {
-        document.myform.action = "bdo_generate_batch.php";
+        document.myform.action = "other_generate_batch.php";
     }
     return true;
 }
