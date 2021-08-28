@@ -14,6 +14,6 @@ while ($ctr < $_POST['ctr']) {
 }
 echo "<script>";
 echo "alert('Successfully mark as generated.');";
-echo "location.replace('bdo_generate_pos.php');";
+echo "location.replace('other_generate_pos.php');";
 echo "</script>";
 ?>
