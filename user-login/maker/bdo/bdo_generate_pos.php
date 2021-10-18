@@ -10,10 +10,10 @@ if (isset($_POST['submit'])) {
     $from = $_POST['from'];
     $to = $_POST['to'];
 
-    $query = "SELECT * FROM payment WHERE status='approved' and (date >= '$from' and date <= '$to') and branch_code NOT LIKE '%" . $_SESSION['branch'] . "%' and printed='1' and bank_code = 'BDO_MAIN'";
+    $query = "SELECT * FROM payment WHERE status='approved' and (date >= '$from' and date <= '$to') and printed='1' and bank_code = 'BDO_MAIN'";
 
 } else {
-    $query = "SELECT * FROM payment WHERE status='approved' and printed='1' and branch_code NOT LIKE '%" . $_SESSION['branch'] . "%' and bank_code = 'BDO_MAIN'";
+    $query = "SELECT * FROM payment WHERE status='approved' and printed='1' and bank_code = 'BDO_MAIN'";
 }
 
 $_result = $con->query($query);
