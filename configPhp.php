@@ -24,6 +24,6 @@ $base_url = 'http://paymentsystem.efi.net.ph/user-login/maker';
 // 	echo $con->connect_error;
 // }
 
-// $base_url = 'http://localhost:8080/paymentsystem/user-login/maker';
+// $base_url = 'http://localhost:8081/efi_payment/user-login/maker';
 
 ?>
