@@ -14,7 +14,8 @@ $branches = [
     ["name" => "Silang", 'count' => 0],
     ["name" => "Pasay", 'count' => 0],
     ["name" => "San Pedro", 'count' => 0],
-    ["name" => "San Fernando", 'count' => 0]
+    ["name" => "San Fernando", 'count' => 0],
+    ["name" => "Test Branch", 'count' => 0]
 ];
 
 foreach($branches as $key => $branch) {

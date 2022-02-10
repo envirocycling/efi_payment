@@ -1,0 +1,92 @@
+.bold {
+  font-weight: 700;
+}
+.txt-center {
+  text-align: center;
+}
+.mt-4 {
+  margin-top: 4px;
+}
+.mb-4 {
+  margin-bottom: 3rem !important;
+}
+
+
+
+.v-modal-mask {
+  background-color: rgba(0, 0, 0, .6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+}
+
+
+.v-modal {
+  background: #fff;
+  border-radius: .5rem;
+  min-width: 50rem;
+  padding: 2rem;
+  position: relative;
+}
+
+.v_modal__content {
+  width: 100%;
+}
+
+.v-modal__close_btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.v-modal__header {
+  padding: 1rem 0;
+  border-bottom: .1rem solid rgb(206, 206, 206);
+  text-transform: capitalize;
+}
+
+
+.v-modal__body {
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  width: 80rem;
+}
+
+.v-modal__footer {
+
+}
+
+
+
+.payment {
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px; 
+  width: 70rem;
+}
+
+.row-details {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.row-details__item {
+  display: flex;
+  flex: 1;
+  margin-right: 5px;
+}

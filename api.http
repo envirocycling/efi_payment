@@ -1,0 +1,7 @@
+GET http://localhost:8081/efi_payment/api.php HTTP/1.1
+content-type: application/json
+
+{
+    "firstname": "John",
+    "lastname": "Doe"
+}
