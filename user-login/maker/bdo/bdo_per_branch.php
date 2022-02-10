@@ -15,8 +15,6 @@ foreach($rbranches as $rbranch) {
     );
 }
 
-
-
 foreach($branches as $key => $branch) {
     $bcode = $branch['code'];
     $query = "SELECT * FROM payment WHERE status='approved' and branch_code like '%{$bcode}%' and bank_code = 'BDO_MAIN'";
@@ -38,7 +36,7 @@ foreach($branches as $key => $branch) {
         ?>
 
         <li class="tab-branch ">
-            <a href="<?= $url ?>" class="<?= ($activeBranch === $name) ? 'tab-branch-active' : '' ?>"><?= $name ?><span class="num  <?= $count ? 'badge-yellow' : '' ?>"><?= $count ?></span></a>
+            <a href="<?= $url ?>" class="<?= ($activeBranch === $code) ? 'tab-branch-active' : '' ?>"><?= $name ?><span class="num  <?= $count ? 'badge-yellow' : '' ?>"><?= $count ?></span></a>
         </li>            
         <?php endforeach;?>
     </ul>

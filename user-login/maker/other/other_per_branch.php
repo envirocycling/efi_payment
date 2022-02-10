@@ -38,7 +38,7 @@ foreach($branches as $key => $branch) {
         ?>
 
         <li class="tab-branch ">
-            <a href="<?= $url ?>" class="<?= ($activeBranch === $name) ? 'tab-branch-active' : '' ?>"><?= $name ?><span class="num  <?= $count ? 'badge-yellow' : '' ?>"><?= $count ?></span></a>
+            <a href="<?= $url ?>" class="<?= ($activeBranch === $code) ? 'tab-branch-active' : '' ?>"><?= $name ?><span class="num  <?= $count ? 'badge-yellow' : '' ?>"><?= $count ?></span></a>
         </li>            
         <?php endforeach;?>
     </ul>
