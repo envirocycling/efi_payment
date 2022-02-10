@@ -85,7 +85,7 @@ $result = $con->query($query);
 <div class="tabs">
     <div id="tab-1" class="tab">
 
-        <h1>Payment Orders</h1> <?= $branch; ?>
+        <h1>Payment Orders</h1>
 
         <h5>Filtering Options.</h5>
 
