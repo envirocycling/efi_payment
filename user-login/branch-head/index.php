@@ -9,6 +9,12 @@ $username = $_SESSION['username'];
 $initial = $_SESSION['initial'];
 $position = $_SESSION['position'];
 
+if($branch === 'Pasig') {
+    $branch = 'PSG.PMNT';
+} else if($branch === 'Tanza') {
+    $branch = 'TNZ.PMNT';
+}
+
 if($username == 'jed' && $user_id = '26') {
     $branch1 = 'Sauyo';
     $branch2 = 'Kaybiga';
@@ -21,7 +27,7 @@ if($username == 'jed' && $user_id = '26') {
     $branch1 = 'Pampanga';
     $branch2 = 'San Fernando';
     $branch3 = 'Calumpit';
-} else {
+} else{
     $branch1 = $branch;
     $branch2 = $branch;
     $branch3 = $branch;
@@ -93,8 +99,6 @@ $result = $con->query($query);
             <article>
 
                 <?php
-
-
                 echo "<thead>";
                 echo "<th>po #</th>";
 //                echo "<th>Branch Code</th>";
