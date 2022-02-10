@@ -1,7 +1,1 @@
-<?php
-$con = mysql_connect("localhost", "root", "");
-if (!$con) {
-    die('Could not connect: ' . mysql_error());
-}
-mysql_select_db("efi_payDB", $con);
-?>
+<?php include_once './../../../configPhp.php'; ?>

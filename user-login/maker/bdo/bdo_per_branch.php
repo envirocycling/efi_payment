@@ -2,25 +2,24 @@
 
 $activeBranch = $_GET['branch'];
 
-$branches = [
-    ["name" => "Pampanga", 'count' => 0],
-    ["name" => "Sauyo", 'count' => 0],
-    ["name" => "Kaybiga", 'count' => 0],
-    ["name" => "Cainta", 'count' => 0],
-    ["name" => "Calamba", 'count' => 0],
-    ["name" => "Calumpit", 'count' => 0],
-    ["name" => "Mangaldan", 'count' => 0],
-    ["name" => "Cavite", 'count' => 0],
-    ["name" => "Silang", 'count' => 0],
-    ["name" => "Pasay", 'count' => 0],
-    ["name" => "San Pedro", 'count' => 0],
-    ["name" => "San Fernando", 'count' => 0],
-    ["name" => "Test Branch", 'count' => 0]
-];
+$branches = array();
+
+$qbranches = $con->query("select * from `branches` where `status`=1;");
+$rbranches = $qbranches->fetch_all(MYSQLI_ASSOC);
+
+foreach($rbranches as $rbranch) {
+    $branches[] = array(
+        "name" => $rbranch['branch_name'],
+        "code" => $rbranch['bcode'],
+        "count" => 0
+    );
+}
+
+
 
 foreach($branches as $key => $branch) {
-    $_branch = $branch['name'];
-    $query = "SELECT * FROM payment WHERE status='approved' and branch_code like '%{$_branch}%' and bank_code = 'BDO_MAIN'";
+    $bcode = $branch['code'];
+    $query = "SELECT * FROM payment WHERE status='approved' and branch_code like '%{$bcode}%' and bank_code = 'BDO_MAIN'";
     $result = $con->query($query);
     $count = $result->num_rows;
     $branches[$key]['count'] = $count;
@@ -34,7 +33,8 @@ foreach($branches as $key => $branch) {
         <?php
             $name = $branch['name'];
             $count = $branch['count'];
-            $url = "{$base_url}/bdo/bdo_index.php?branch=".$name;
+            $code = $branch['code'];
+            $url = "{$base_url}/bdo/bdo_index.php?branch=".$code;
         ?>
 
         <li class="tab-branch ">
