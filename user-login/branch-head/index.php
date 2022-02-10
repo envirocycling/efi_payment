@@ -13,13 +13,11 @@ if($branch === 'Pasig') {
     $branch = 'PSG.PMNT';
 } else if($branch === 'Tanza') {
     $branch = 'TNZ.PMNT';
+} else if($branch === 'Malvar') {
+    $branch = 'MLVR.PMNT';
 }
 
-if($username == 'jed' && $user_id = '26') {
-    $branch1 = 'Sauyo';
-    $branch2 = 'Kaybiga';
-    $branch3 = 'Kaybiga';
-} else if($username == 'CJT' && $user_id = '75') {
+if($username == 'CJT' && $user_id = '75') {
     $branch1 = 'Sauyo';
     $branch2 = 'Kaybiga';
     $branch3 = 'Kaybiga';
