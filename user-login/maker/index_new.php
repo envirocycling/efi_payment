@@ -13,8 +13,6 @@ $result = $con->query($query);
 
 $_res = $result->fetch_all(MYSQLI_ASSOC);
 
-die(var_dump($_res));
-
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="jsDatePick.min.1.3.js"></script>
@@ -98,7 +96,7 @@ die(var_dump($_res));
 
                 $ctr = 0;
 
-                while ($row = $result->fetch_array()) {
+                foreach ($_res as $row) {
                     echo "<tr>";
                     echo "<td>" . $row['payment_id'] . "</td>";
                     echo "<td>" . $row['branch_code'] . "</td>";
