@@ -22,6 +22,7 @@ Vue.createApp({
             },
             payment: {},
             payments: [],
+            userData: {},
             showModal: false,
             isLoading: true
         }
@@ -39,6 +40,16 @@ Vue.createApp({
         },
         async closeModal() {
             this.showModal = false
+        },
+        async getAuthUser() {
+            try {
+                const req = await fetch(`/efi_payment/api/get_auth_user.php`)
+                const response = await req.json()
+                this.userData = response.data
+                console.log(this.userData)       
+            } catch (error) {
+                throw error
+            }      
         },
         async fetchPayments() {
             try {
@@ -59,14 +70,14 @@ Vue.createApp({
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
-                year = d.getFullYear();
+                year = d.getFullYear()
         
             if (month.length < 2) 
-                month = '0' + month;
+                month = '0' + month
             if (day.length < 2) 
-                day = '0' + day;
+                day = '0' + day
         
-            return [year, month, day].join('-');
+            return [year, month, day].join('-')
         }
     },
     computed: {
@@ -75,17 +86,14 @@ Vue.createApp({
             let start = this.filters.daterange[0]
             let end = this.filters.daterange[1]
 
-            return `${this.formatDate(start)} ~ ${this.formatDate(end)}`;
+            return `${this.formatDate(start)} ~ ${this.formatDate(end)}`
         }
 
     },
     async created() {
         try {
-
-            setTimeout( async () => {
-                await this.fetchPayments();
-            }, 3000)
-            
+            await this.getAuthUser()
+            await this.fetchPayments()
         } catch (error) {}
     }
 }).mount('#app')

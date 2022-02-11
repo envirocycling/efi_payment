@@ -11,6 +11,8 @@ if (isset($_POST['submit'])) {
 
 $result = $con->query($query);
 
+die(var_dump($query));
+
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="jsDatePick.min.1.3.js"></script>

@@ -96,7 +96,6 @@
   <!-- Footer -->
   <?php include 'includes/footer.php'; ?>
 
-
 </div>
 <!-- ./wrapper -->
 
