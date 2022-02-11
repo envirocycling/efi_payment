@@ -14,7 +14,6 @@ foreach($rbranches as $rbranch) {
 }
 
 
-
 foreach($branches as $key => $branch) {
     $bcode = $branch['code'];
     $query = "SELECT * FROM payment WHERE status='approved' and branch_code like '%{$bcode}%' and bank_code = 'SBC'";
