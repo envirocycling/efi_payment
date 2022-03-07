@@ -46,7 +46,7 @@ Vue.createApp({
                 const req = await fetch(`/efi_payment/api/get_auth_user.php`)
                 const response = await req.json()
                 this.userData = response.data
-                console.log(this.userData)       
+                console.log(response)       
             } catch (error) {
                 throw error
             }      

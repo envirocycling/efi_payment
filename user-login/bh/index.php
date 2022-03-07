@@ -85,7 +85,6 @@
 
         <x-modal v-if="showModal" @close="closeModal" :payment="payment" :modal-title="'Payment Details'"></x-modal>
         
-
       </section>
       <!-- /.content -->
     </div>

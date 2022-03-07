@@ -1,5 +1,10 @@
 <?php include 'configPhp.php';
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+header('Access-Control-Max-Age: 600');
+
 date_default_timezone_set("Asia/Manila");
 
 $data = json_decode(file_get_contents('php://input'));
