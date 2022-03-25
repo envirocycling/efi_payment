@@ -40,6 +40,10 @@
                     <a href="<?= $base_url; ?>/bdo/bdo_index.php?branch=Pampanga" >BDO </a>
                 </li>
 
+                <li class="sidenav-menu-item">
+                    <a href="<?= $base_url; ?>/gcash/gcash_index.php?branch=Pampanga" >G-CASH </a>
+                </li>
+
                 <li class="sidenav-menu-item active">
                     <a href="<?= $base_url; ?>/other/other_index.php?branch=Pampanga" >OTHER <br> BANK </a>
                 </li>

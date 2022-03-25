@@ -2,7 +2,6 @@
 @session_start();
 include("./../../configPhp.php");
 
-$base_url = "http://localhost/paymentsystem/";
 $branch = $_GET['branch'];
 
 if (!isset($_SESSION['acctg_id'])) {
@@ -206,6 +205,10 @@ $resultCountGenerated = $_resultCountGenerated->num_rows;
 
                 <li class="sidenav_menu  active">
                     <a href="<?= $base_url; ?>/bdo_index.php?branch=Pampanga" >BDO</a>
+                </li>
+
+                <li class="sidenav_menu">
+                    <a href="<?= $base_url; ?>/gcash_index.php?branch=Pampanga" >G-CASH</a>
                 </li>
 
                 <li>

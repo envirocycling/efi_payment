@@ -163,6 +163,8 @@ $payments = getCancelledPayments($bankCode, $branch, $startDate, $endDate);
                         <option value="" <?=$bankCode==''?'selected':''?>>All Bank</option>
                         <option value="SBC" <?=$bankCode=='SBC'?'selected':''?>>SBC</option>
                         <option value="BDO_MAIN" <?=$bankCode=='BDO_MAIN'?'selected':''?>>BDO</option>
+                        <option value="GCASH" <?=$bankCode=='GCASH'?'selected':''?>>G-CASH</option>
+                        <option value="OTHER_BANK" <?=$bankCode=='OTHER_BANK'?'selected':''?>>Other Local Bank</option>
                       </select>
                     </div>
 

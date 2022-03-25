@@ -15,23 +15,23 @@ if($_SESSION['acctg_id'] == '48'){
 if (isset($_POST['submit'])) {
     $from = $_POST['from'];
     $to = $_POST['to'];
-    $query = "SELECT * FROM payment WHERE status = 'approved' and (date >= '{$from}' and date <= '{$to}') and branch_code like '%{$branch}%' and bank_code = 'OTHER_BANK'";
+    $query = "SELECT * FROM payment WHERE status = 'approved' and (date >= '{$from}' and date <= '{$to}') and branch_code like '%{$branch}%' and bank_code = 'GCASH'";
 } else {
-    $query = "SELECT * FROM payment WHERE status = 'approved' and branch_code like '%{$branch}%' and bank_code = 'OTHER_BANK'";
+    $query = "SELECT * FROM payment WHERE status = 'approved' and branch_code like '%{$branch}%' and bank_code = 'GCASH'";
 }
 
 $_result = $con->query($query);
 
 //Count label data
-$queryCountPo = "SELECT * FROM payment WHERE status='approved' and bank_code = 'OTHER_BANK'";
+$queryCountPo = "SELECT * FROM payment WHERE status='approved' and bank_code = 'GCASH'";
 $_resultCountPo = $con->query($queryCountPo);
 $resultCountPo = $_resultCountPo->num_rows;
 
-$queryCountPrinted = "SELECT * FROM payment WHERE status='approved' and printed='1' and bank_code = 'OTHER_BANK'";
+$queryCountPrinted = "SELECT * FROM payment WHERE status='approved' and printed='1' and bank_code = 'GCASH'";
 $_resultCountPrinted = $con->query($queryCountPrinted);
 $resultCountPrinted = $_resultCountPrinted->num_rows;
 
-$queryCountGenerated = "SELECT * FROM payment WHERE status='generated' and maker_approved_noti='0' and bank_code = 'OTHER_BANK'";
+$queryCountGenerated = "SELECT * FROM payment WHERE status='generated' and maker_approved_noti='0' and bank_code = 'GCASH'";
 $_resultCountGenerated = $con->query($queryCountGenerated);
 $resultCountGenerated = $_resultCountGenerated->num_rows;
 
@@ -73,19 +73,19 @@ $resultCountGenerated = $_resultCountGenerated->num_rows;
                     <nav class="links">
                         <ul>
                             <li>
-                                <a href="other_index.php?branch=Pampanga" class="">
+                                <a href="bdo_index.php?branch=Pampanga" class="">
                                     Request for POs <span class="num"><?= $resultCountPo ?></span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="other_generate_pos.php" class="">
+                                <a href="bdo_generate_pos.php" class="">
                                     Generate Batch POs <span class="num"><?= $resultCountPrinted ?></span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="other_for_verification_pos.php" class="">
+                                <a href="bdo_for_verification_pos.php" class="">
                                     Generated Fund Transfer <span class="num"><?= $resultCountGenerated ?></span>
                                 </a>
                             </li>
@@ -115,12 +115,12 @@ $resultCountGenerated = $_resultCountGenerated->num_rows;
                         <div class="content-header">
                             <div class="content-header__title">
                                 <span class="content-header__title-bdo">
-                                    <span class="content-header__main-title">EFI</span>
+                                    <span class="content-header__title-bdo-blue">BD</span><span class="content-header__title-bdo-yellow">O</span> 
                                 </span> 
-                                <span class="content-header__sub-title"> Other Bank Payments</span>
+                                <span class="content-header__title-title">Payment Orders</span>
                             </div>
 
-                            <form action="other_index.php?branch=<?= $branch ?>" method="POST">
+                            <form action="bdo_index.php?branch=<?= $branch ?>" method="POST">
                                 <div class="filter-group">
                                     <?php if (isset($_POST['submit'])):  ?>
 
@@ -141,7 +141,7 @@ $resultCountGenerated = $_resultCountGenerated->num_rows;
                             </form>
                         </div>
 
-                        <?php include('templates/other_per_branch.php');?>
+                        <?php include('templates/bdo_per_branch.php');?>
 
                         <table class="data display datatable" id="example">
                             <thead>
@@ -203,16 +203,12 @@ $resultCountGenerated = $_resultCountGenerated->num_rows;
                     <a href="<?= $base_url; ?>/index_new.php?branch=Pampanga">SBC</a>
                 </li>
 
-                <li class="sidenav_menu  active">
+                <li class="sidenav_menu">
                     <a href="<?= $base_url; ?>/bdo_index.php?branch=Pampanga" >BDO</a>
                 </li>
 
                 <li class="sidenav_menu  active">
                     <a href="<?= $base_url; ?>/gcash_index.php?branch=Pampanga" >G-CASH</a>
-                </li>
-
-                <li class="sidenav_menu  active">
-                    <a href="<?= $base_url; ?>/other_index.php?branch=Pampanga" >OTHER <br> BANK</a>
                 </li>
 
                 <li>

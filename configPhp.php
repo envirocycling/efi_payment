@@ -15,7 +15,7 @@ $base_url = 'http://paymentsystem.efi.net.ph/user-login/maker';
 
 // $host = "localhost";
 // $username = "root";
-// $password = "enviro";
+// $password = "R3strlckt3d";
 // $database = "efi_paydb";
 
 // $con = new mysqli($host, $username, $password, $database);
