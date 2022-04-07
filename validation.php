@@ -96,13 +96,13 @@ if ($check < 1) {
             } else {
                 $_SESSION['bh_id'] = $users['user_id'];
                 echo "<script>";
-                echo "location.replace('user-login/branch-head/');";
+                echo "location.replace('user-login/bh/');";
                 echo "</script>";
             }
         } else {
             $_SESSION['bh_id'] = $users['user_id'];
             echo "<script>";
-            echo "location.replace('user-login/branch-head/');";
+            echo "location.replace('user-login/bh/');";
             echo "</script>";
         }
     }

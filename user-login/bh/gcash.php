@@ -6,7 +6,7 @@ if (!isset($_SESSION['bh_id'])) {
 
 include './../../query_builder/queryBuilder.php';
 
-$activeLink = 'home';
+$activeLink = 'gcash';
 
 $branch = $_SESSION['branch'];
 
@@ -41,7 +41,7 @@ if(isset($_POST['filter'])) {
 
 } else {
 
-  $bankCode = '';
+  $bankCode = 'GCASH';
   $startDate = date('Y/m/01');
   $endDate = date('Y/m/d');
   $selectedBranch = $branchControl[0]['branch'];
@@ -67,7 +67,7 @@ if($selectedBranch === 'Pasig') {
   $branchQuery = $selectedBranch;
 }
 
-$payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $startDate, $endDate, $selectedStatus);
+$payments = getBHPayments($bankCode, $position, $branchQuery, $initial, $startDate, $endDate, $selectedStatus);
 
 
 ?>
@@ -121,7 +121,7 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          Online Payment |
+          GCash Payment |
           <small><?= strtoupper($header); ?></small>
         </h1>
 
@@ -170,10 +170,7 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
                         <div class="form-group">
                           <label for="bank_code">Bank Code:</label>
                           <select class="form-control input-sm" name="bank_code" id="bank_code">
-                            <option value="" <?=$bankCode==''?'selected':''?>>All Bank</option>
-                            <option value="SBC" <?=$bankCode=='SBC'?'selected':''?>>SBC</option>
-                            <option value="BDO_MAIN" <?=$bankCode=='BDO_MAIN'?'selected':''?>>BDO</option>
-                            <option value="OTHER_BANK" <?=$bankCode=='OTHER_BANK'?'selected':''?>>Other Local Bank</option>
+                            <option value="GCASH" <?=$bankCode=='GCASH'?'selected':''?>>GCASH</option>
                           </select>
                         </div>
                       </div>
@@ -182,9 +179,8 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
                           <label for="status">Status:</label>
                           <select class="form-control input-sm" name="status" id="status">
                             <option value="" <?=$selectedStatus==''?'selected':''?>>Pending</option>
-                            <option value="approved" <?=$selectedStatus=='approved'?'selected':''?>>Approved</option>
-                            <option value="disapproved" <?=$selectedStatus=='disapproved'?'selected':''?>>Disapproved/Cancel</option>
-                            <option value="generated" <?=$selectedStatus=='generated'?'selected':''?>>Generated</option>
+                            <option value="generated" <?=$selectedStatus=='generated'?'selected':''?>>Processed/Generated</option>
+                            <option value="disapproved" <?=$selectedStatus=='disapproved'?'selected':''?>>Cancelled</option>
                           </select>
                         </div>
                       </div>
