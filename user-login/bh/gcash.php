@@ -233,7 +233,7 @@ $payments = getBHPayments($bankCode, $position, $branchQuery, $initial, $startDa
                           <td><?= $payment['voucher_no'] ?></td>
                           <td><?= number_format($payment['grand_total'],2) ?>Php</td>
                           <td><?= $payment['date'] ?></td>
-                          <td><label class="badge">Pending</label></td>
+                          <td><label class="badge"><?= $_status?></label></td>
                           <td>
                             <a rel='facebox' href='ifrm_cv.php?payment_id=<?php echo $payment['payment_id']; ?>'>
                               <button class="btn btn-sm btn-success">View</button>
