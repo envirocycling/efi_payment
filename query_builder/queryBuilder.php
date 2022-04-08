@@ -36,6 +36,7 @@ function getBHOnlinePayments($position, $branch, $initial, $from, $to, $status) 
 		$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code != 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
 	}
 
+
 	$sql = $con->query($query);
 	// Fetch all
 	return $sql->fetch_all(MYSQLI_ASSOC);

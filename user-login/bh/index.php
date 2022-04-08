@@ -38,7 +38,16 @@ $paymentsArr = array();
 
 foreach ($branchControl as $key => $value) {
   $branchQ = $value['branch_code'];
-  $paymentsArr[] = getBHOnlinePayments($position, $branchQ, $initial, $startDate, $endDate, '');
+
+  if($branchQ === 'PSG.PMNT' || $branchQ === 'TNZ.PMNT' || $branch === 'MLVR.PMNT') {
+    $startDateQ = date('Y-m-d', strtotime($startDate));
+    $endDateQ = date('Y-m-d', strtotime($endDate));
+  } else {
+    $startDateQ = $startDate;
+    $endDateQ = $endDate;
+  }
+
+  $paymentsArr[] = getBHOnlinePayments($position, $branchQ, $initial, $startDateQ, $endDateQ, '');
 }
 
 
