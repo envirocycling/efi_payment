@@ -18,56 +18,28 @@ $fn = $_SESSION['firstname'];
 $ln = $_SESSION['lastname'];
 $name = $fn.' '.$ln;
 
-if($branch === 'Pasig') {
-    $branch = 'PSG.PMNT';
-} else if($branch === 'Tanza') {
-    $branch = 'TNZ.PMNT';
-} else if($branch === 'Malvar') {
-    $branch = 'MLVR.PMNT';
-}
-
 $branchControl = getUserAccessControl($user_id);
 
 if(isset($_POST['filter'])) {
-
   $daterange = $_POST['daterange'];
-  $bankCode = $_POST['bank_code'];
-  $selectedBranch = $_POST['branch'];
-  $selectedStatus = $_POST['status'];
   $dateArr = explode('-', $daterange);
-
   $startDate = trim($dateArr[0]);
   $endDate = trim($dateArr[1]);
-
 } else {
-
-  $bankCode = '';
   $startDate = date('Y/m/01');
   $endDate = date('Y/m/d');
-  $selectedBranch = $branchControl[0]['branch'];
-  $selectedStatus = '';
   $daterange = "{$startDate} - {$endDate}";
-
 }
 
+$header = "({$startDate} - {$endDate})   /   pending";
+$title = "payments";
 
-$_bankCode = ($bankCode == '') ? 'All Banks' : $bankCode;
-$_status = ($selectedStatus == '') ? 'pending' : $selectedStatus;
-  
-$header = "({$startDate} - {$endDate})   /   {$_bankCode}   /   {$_status}";
-$title = "{$selectedBranch} payments";
+$paymentsArr = array();
 
-if($selectedBranch === 'Pasig') {
-  $branchQuery = 'PSG.PMNT';
-} else if($selectedBranch === 'Tanza') {
-  $branchQuery = 'TNZ.PMNT';
-} else if($selectedBranch === 'Malvar') {
-  $branchQuery = 'MLVR.PMNT';
-} else {
-  $branchQuery = $selectedBranch;
+foreach ($branchControl as $key => $value) {
+  $branchQ = $value['branch_code'];
+  $paymentsArr[] = getBHOnlinePayments($position, $branchQ, $initial, $startDate, $endDate, '');
 }
-
-$payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $startDate, $endDate, $selectedStatus);
 
 
 ?>
@@ -131,13 +103,13 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
       <section class="content">
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
               <div class="box box-success">
                 <div class="box-body">
                   <form method="POST">
 
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <div class="form-group">
 
                           <label>Date Range:</label>
@@ -149,43 +121,6 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
                             <input type="text" class="form-control pull-right input-sm" id="daterange" name="daterange" readonly>
                           </div>
                           <!-- /.input group -->
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="branch">Branch:</label>
-                          <select class="form-control input-sm" name="branch" id="branch">
-                            <?php foreach($branchControl as $control):?>
-                            <option value="<?=$control['branch']?>" <?=$selectedBranch==$control['branch']?'selected':''?>>
-                              <?=$control['branch']?>
-                            </option>
-                            <?php endforeach;?>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="bank_code">Bank Code:</label>
-                          <select class="form-control input-sm" name="bank_code" id="bank_code">
-                            <option value="" <?=$bankCode==''?'selected':''?>>All Bank</option>
-                            <option value="SBC" <?=$bankCode=='SBC'?'selected':''?>>SBC</option>
-                            <option value="BDO_MAIN" <?=$bankCode=='BDO_MAIN'?'selected':''?>>BDO</option>
-                            <option value="OTHER_BANK" <?=$bankCode=='OTHER_BANK'?'selected':''?>>Other Local Bank</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="status">Status:</label>
-                          <select class="form-control input-sm" name="status" id="status">
-                            <option value="" <?=$selectedStatus==''?'selected':''?>>Pending</option>
-                            <option value="approved" <?=$selectedStatus=='approved'?'selected':''?>>Approved</option>
-                            <option value="disapproved" <?=$selectedStatus=='disapproved'?'selected':''?>>Disapproved/Cancel</option>
-                            <option value="generated" <?=$selectedStatus=='generated'?'selected':''?>>Generated</option>
-                          </select>
                         </div>
                       </div>
                     </div>
@@ -206,7 +141,7 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
 
         <div class="row">
           <div class="col-md-12">
-            <div class="box box-success">
+            <div class="box box-success" style="overflow-x: scroll;">
               <div class="box-header">
                   <h4 class="box-title">
                   <?= ucwords($title); ?>
@@ -216,8 +151,8 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
               <div class="box-body">
                 <table id="tablepayment" class="table table-bordered table-striped ">
                     <thead class="">
-                      <th>Branch Code</th>
                       <th>Supplier Name</th>
+                      <th>Branch</th>
                       <th>Acct. Name</th>
                       <th>Acct. Number</th>
                       <th>Voucher No.</th>
@@ -228,10 +163,22 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
                     </thead>
 
                     <tbody>
-                      <?php foreach ($payments as $payment): ?>
+                      <?php foreach ($paymentsArr as $payments): ?>
+                        <?php foreach($payments as $payment):
+
+                          $branch = explode('-', $payment['branch_code'])[0];
+
+                          if($branch === 'PSG.PMNT') {
+                              $branch = 'Pasig';
+                          } else if($branch === 'TNZ.PMNT') {
+                              $branch = 'Tanza';
+                          } else if($branch === 'MLVR.PMNT') {
+                              $branch = 'Malvar';
+                          }
+                        ?>
                         <tr>
-                          <td><?= $payment['branch_code'] ?></td>
                           <td><?= $payment['supplier_name'] ?></td>
+                          <td><?= $branch ?></td>
                           <td><?= $payment['account_name'] ?></td>
                           <td><?= $payment['account_number']  ?></td>
                           <td><?= $payment['voucher_no'] ?></td>
@@ -244,6 +191,7 @@ $payments = getBHOnlinePayments($bankCode, $position, $branchQuery, $initial, $s
                             </a>
                           </td>
                         </tr>
+                        <?php endforeach;?>
                       <?php endforeach;?>
                       
                     </tbody>
