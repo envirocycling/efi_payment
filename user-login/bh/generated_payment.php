@@ -6,7 +6,7 @@ if (!isset($_SESSION['bh_id'])) {
 
 include './../../query_builder/queryBuilder.php';
 
-$activeLink = 'gcash';
+$activeLink = 'home';
 
 $branch = $_SESSION['branch'];
 
@@ -31,15 +31,25 @@ if(isset($_POST['filter'])) {
   $daterange = "{$startDate} - {$endDate}";
 }
 
-$status = 'Pending';
+$status = 'Generated';
 $header = "({$startDate} - {$endDate})   /  {$status}";
-$title = "pending payments";
+$title = "generated payments";
 
 $paymentsArr = array();
 
 foreach ($branchControl as $key => $value) {
   $branchQ = $value['branch_code'];
-  $paymentsArr[] = getGCashPayments($position, $branchQ, $initial, $startDate, $endDate, '');
+
+  if($branchQ === 'PSG.PMNT' || $branchQ === 'TNZ.PMNT' || $branch === 'MLVR.PMNT') {
+    $startDateQ = date('Y-m-d', strtotime($startDate));
+    $endDateQ = date('Y-m-d', strtotime($endDate));
+  } else {
+    $startDateQ = $startDate;
+    $endDateQ = $endDate;
+    
+  }
+
+  $paymentsArr[] = getBHOnlinePayments($position, $branchQ, $initial, $startDateQ, $endDateQ, 'generated');
 }
 
 
@@ -94,7 +104,7 @@ foreach ($branchControl as $key => $value) {
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          GCash Payment |
+          Online Payment |
           <small><?= strtoupper($header); ?></small>
         </h1>
 
@@ -159,6 +169,7 @@ foreach ($branchControl as $key => $value) {
                       <th>Voucher No.</th>
                       <th>Amount</th>
                       <th>Date</th>
+                      <th>Processed(DateTime)</th>
                       <th>Status</th>
                       <th>Action</th>
                     </thead>
@@ -185,6 +196,7 @@ foreach ($branchControl as $key => $value) {
                           <td><?= $payment['voucher_no'] ?></td>
                           <td><?= number_format($payment['grand_total'],2) ?>Php</td>
                           <td><?= $payment['date'] ?></td>
+                          <td><?= $payment['transfer_date'].' '. $payment['transfer_time'] ?></td>
                           <td><label class="badge"><?=$status?></label></td>
                           <td>
                             <a rel='facebox' href='ifrm_cv.php?payment_id=<?php echo $payment['payment_id']; ?>'>

@@ -31,9 +31,17 @@ function getBHOnlinePayments($position, $branch, $initial, $from, $to, $status) 
 	include './../../configPhp.php';
 
 	if($position == 'Reliever') {
-		$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code != 'GCASH' and branch_code like '%{$branch}%' and signatory like '%{$initial}%' and (date >= '{$from}' and date <= '{$to}');";
+		if($status == 'cancel') {
+			$query = "SELECT * FROM payment WHERE (`status`='disapproved' OR `status`='cancelled') and bank_code != 'GCASH' and branch_code like '%{$branch}%' and signatory like '%{$initial}%' and (date >= '{$from}' and date <= '{$to}');";
+		} else {
+			$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code != 'GCASH' and branch_code like '%{$branch}%' and signatory like '%{$initial}%' and (date >= '{$from}' and date <= '{$to}');";
+		}
 	} else {
-		$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code != 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
+		if($status === 'cancel') {
+			$query = "SELECT * FROM payment WHERE (`status`='disapproved' OR `status`='cancelled') and bank_code != 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
+		} else {
+			$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code != 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
+		}
 	}
 
 
@@ -50,9 +58,17 @@ function getGCashPayments($position, $branch, $initial, $from, $to, $status) {
 	include './../../configPhp.php';
 
 	if($position == 'Reliever') {
-		$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code = 'GCASH' and branch_code like '%{$branch}%' and signatory like '%{$initial}%' and (date >= '{$from}' and date <= '{$to}');";
+		if($status === 'cancel') {
+			$query = "SELECT * FROM payment WHERE (`status`='disapproved' OR `status`='cancelled') and bank_code = 'GCASH' and branch_code like '%{$branch}%' and signatory like '%{$initial}%' and (date >= '{$from}' and date <= '{$to}');";
+		} else {
+			$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code = 'GCASH' and branch_code like '%{$branch}%' and signatory like '%{$initial}%' and (date >= '{$from}' and date <= '{$to}');";
+		}
 	} else {
-		$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code = 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
+		if($status === 'cancel') {
+			$query = "SELECT * FROM payment WHERE (`status`='disapproved' OR `status`='cancelled') and bank_code = 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
+		} else {
+			$query = "SELECT * FROM payment WHERE `status`='{$status}' and bank_code = 'GCASH' and branch_code like '%{$branch}%' and (date>='{$from}' and date<='$to');";
+		}
 	}
 
 	$sql = $con->query($query);

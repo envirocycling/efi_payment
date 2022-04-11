@@ -31,15 +31,15 @@ if(isset($_POST['filter'])) {
   $daterange = "{$startDate} - {$endDate}";
 }
 
-$status = 'Pending';
+$status = 'Cancelled';
 $header = "({$startDate} - {$endDate})   /  {$status}";
-$title = "pending payments";
+$title = "cancelled gcash payments";
 
 $paymentsArr = array();
 
 foreach ($branchControl as $key => $value) {
   $branchQ = $value['branch_code'];
-  $paymentsArr[] = getGCashPayments($position, $branchQ, $initial, $startDate, $endDate, '');
+  $paymentsArr[] = getGCashPayments($position, $branchQ, $initial, $startDate, $endDate, 'cancel');
 }
 
 
@@ -159,6 +159,7 @@ foreach ($branchControl as $key => $value) {
                       <th>Voucher No.</th>
                       <th>Amount</th>
                       <th>Date</th>
+                      <th>Cancelled(DateTime)</th>
                       <th>Status</th>
                       <th>Action</th>
                     </thead>
@@ -185,7 +186,8 @@ foreach ($branchControl as $key => $value) {
                           <td><?= $payment['voucher_no'] ?></td>
                           <td><?= number_format($payment['grand_total'],2) ?>Php</td>
                           <td><?= $payment['date'] ?></td>
-                          <td><label class="badge"><?=$status?></label></td>
+                          <td><?= $payment['disapproved_date'].' '. $payment['disapproved_time'] ?></td>
+                          <td><label class="badge"><?=$_status?></label></td>
                           <td>
                             <a rel='facebox' href='ifrm_cv.php?payment_id=<?php echo $payment['payment_id']; ?>'>
                               <button class="btn btn-sm btn-success">View</button>

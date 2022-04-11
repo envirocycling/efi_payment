@@ -4,32 +4,53 @@ if (!isset($_SESSION['bh_id'])) {
     echo "<script>location.replace('../../');</script>";
 }
 
-include './../../query_builder/queryBuilder.php'; 
+include './../../query_builder/queryBuilder.php';
+
+$activeLink = 'home';
 
 $branch = $_SESSION['branch'];
+
+$user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
+$initial = $_SESSION['initial'];
+$position = $_SESSION['position'];
 $fn = $_SESSION['firstname'];
 $ln = $_SESSION['lastname'];
 $name = $fn.' '.$ln;
 
+$branchControl = getUserAccessControl($user_id);
+
 if(isset($_POST['filter'])) {
-
   $daterange = $_POST['daterange'];
-  $bankCode = $_POST['bank_code'];
   $dateArr = explode('-', $daterange);
-
   $startDate = trim($dateArr[0]);
   $endDate = trim($dateArr[1]);
-
 } else {
-
-  $bankCode = '';
-  $startDate = date('Y/m/d');
+  $startDate = date('Y/m/01');
   $endDate = date('Y/m/d');
   $daterange = "{$startDate} - {$endDate}";
-
 }
 
-$payments = getPendingPayments($bankCode, $branch, $startDate, $endDate);
+$status = 'Approved';
+$header = "({$startDate} - {$endDate})   /   {$status}";
+$title = "approved payments";
+
+$paymentsArr = array();
+
+foreach ($branchControl as $key => $value) {
+  $branchQ = $value['branch_code'];
+
+  if($branchQ === 'PSG.PMNT' || $branchQ === 'TNZ.PMNT' || $branch === 'MLVR.PMNT') {
+    $startDateQ = date('Y-m-d', strtotime($startDate));
+    $endDateQ = date('Y-m-d', strtotime($endDate));
+  } else {
+    $startDateQ = $startDate;
+    $endDateQ = $endDate;
+  }
+
+  $paymentsArr[] = getBHOnlinePayments($position, $branchQ, $initial, $startDateQ, $endDateQ, 'approved');
+}
+
 
 ?>
 
@@ -39,7 +60,7 @@ $payments = getPendingPayments($bankCode, $branch, $startDate, $endDate);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EFI Payment | Account Payable</title>
+  <title>EFI Payment | Branch Head</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -82,45 +103,44 @@ $payments = getPendingPayments($bankCode, $branch, $startDate, $endDate);
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          Payment Order |
-          <small>Approved Payments</small>
+          Online Payment |
+          <small><?= strtoupper($header); ?></small>
         </h1>
 
       </section>
 
       <!-- Main content -->
       <section class="content">
+
         <div class="row">
           <div class="col-md-4">
               <div class="box box-success">
                 <div class="box-body">
                   <form method="POST">
 
-                    <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
 
-                      <label>Date Range:</label>
+                          <label>Date Range:</label>
 
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
+                          <div class="input-group date">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right input-sm" id="daterange" name="daterange" readonly>
+                          </div>
+                          <!-- /.input group -->
                         </div>
-                        <input type="text" class="form-control pull-right input-sm" id="daterange" name="daterange" readonly>
                       </div>
-                      <!-- /.input group -->
                     </div>
-
-                    <div class="form-group">
-                      <label for="bank_code">Bank Code:</label>
-                      <select class="form-control input-sm" name="bank_code" id="bank_code">
-                        <option value="" <?=$bankCode==''?'selected':''?>>All Bank</option>
-                        <option value="SBC" <?=$bankCode=='SBC'?'selected':''?>>SBC</option>
-                        <option value="BDO_MAIN" <?=$bankCode=='BDO_MAIN'?'selected':''?>>BDO</option>
-                        <option value="OTHER_BANK" <?=$bankCode=='OTHER_BANK'?'selected':''?>>Other Local Bank</option>
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <button class="btn btn-success btn-sm btn-block" type="submit" name="filter">Filter</button>
+                    
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <button class="btn btn-success btn-sm btn-block" type="submit" name="filter">Filter</button>
+                        </div>
+                      </div>
                     </div>
 
                   </form>
@@ -131,45 +151,67 @@ $payments = getPendingPayments($bankCode, $branch, $startDate, $endDate);
 
         <div class="row">
           <div class="col-md-12">
-            <div class="box box-success">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="tablepayment" class="table table-bordered table-striped ">
-                <thead class="">
-                  <th>Branch Code</th>
-                  <th>Supplier Name</th>
-                  <th>Acct. Name</th>
-                  <th>Acct. Number</th>
-                  <th>Voucher No.</th>
-                  <th>Amount</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </thead>
+            <div class="box box-success" style="overflow-x: scroll;">
+              <div class="box-header">
+                  <h4 class="box-title">
+                  <?= ucwords($title); ?>
+                  </h4>
+              </div>
 
-              <tbody>
-                <?php foreach ($payments as $payment): ?>
-                  <tr>
-                    <td><?= $payment['branch_code'] ?></td>
-                    <td><?= $payment['supplier_name'] ?></td>
-                    <td><?= $payment['account_name'] ?></td>
-                    <td><?= $payment['account_number']  ?></td>
-                    <td><?= $payment['voucher_no'] ?></td>
-                    <td><?= number_format($payment['grand_total'],2) ?>Php</td>
-                    <td><?= $payment['date'] ?></td>
-                    <td><label class="badge">Approved</label></td>
-                    <td>
-                      <a rel='facebox' href='ifrm_cv.php?payment_id=<?php echo $payment['payment_id']; ?>'>
-                        <button class="btn btn-sm btn-success">View</button>
-                      </a>
-                    </td>
-                </tr>
-                <?php endforeach;?>
-                
-              </tbody>
-            </table>
-          </div>
-        </div>
+              <div class="box-body">
+                <table id="tablepayment" class="table table-bordered table-striped ">
+                    <thead class="">
+                      <th>Supplier Name</th>
+                      <th>Branch</th>
+                      <th>Acct. Name</th>
+                      <th>Acct. Number</th>
+                      <th>Voucher No.</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Approved(DateTime)</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </thead>
+
+                    <tbody>
+                      <?php foreach ($paymentsArr as $payments): ?>
+                        <?php foreach($payments as $payment):
+
+                          $branch = explode('-', $payment['branch_code'])[0];
+
+                          if($branch === 'PSG.PMNT') {
+                              $branch = 'Pasig';
+                          } else if($branch === 'TNZ.PMNT') {
+                              $branch = 'Tanza';
+                          } else if($branch === 'MLVR.PMNT') {
+                              $branch = 'Malvar';
+                          }
+                        ?>
+                        <tr>
+                          <td><?= $payment['supplier_name'] ?></td>
+                          <td><?= $branch ?></td>
+                          <td><?= $payment['account_name'] ?></td>
+                          <td><?= $payment['account_number']  ?></td>
+                          <td><?= $payment['voucher_no'] ?></td>
+                          <td><?= number_format($payment['grand_total'],2) ?>Php</td>
+                          <td><?= $payment['date'] ?></td>
+                          <td><?= $payment['approved_date'].' '. $payment['approved_time'] ?></td>
+                          <td><label class="badge"><?=$status?></label></td>
+                          <td>
+                            <a rel='facebox' href='ifrm_cv.php?payment_id=<?php echo $payment['payment_id']; ?>'>
+                              <button class="btn btn-sm btn-success">View</button>
+                            </a>
+                          </td>
+                        </tr>
+                        <?php endforeach;?>
+                      <?php endforeach;?>
+                      
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+                  
+
           </div>
         </div>
 
