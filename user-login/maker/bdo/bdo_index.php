@@ -65,7 +65,7 @@ $_result = $con->query($query);
                                     <td><?= $row['account_name'] ?></td>
                                     <td><?= $row['account_number'] ?></td>
                                     <td><?= $row['voucher_no'] ?></td>
-                                    <td>Php<?= number_format($row['grand_total'], 2); ?></td>
+                                    <td>Php <?= number_format($row['grand_total'], 2); ?></td>
                                     <td><?= date("M d, Y", strtotime($row['date'])) . " " . date("h:i a", strtotime($row['time'])); ?></td>
                                     <?php
                                     $approvedDate = '';

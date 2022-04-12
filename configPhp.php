@@ -14,6 +14,7 @@ if($con->connect_error) {
 $base_url = 'http://paymentsystem.efi.net.ph/user-login/maker';
 
 // $host = "localhost";
+
 // $username = "root";
 // $password = "enviro";
 // $database = "efi_paydb";
