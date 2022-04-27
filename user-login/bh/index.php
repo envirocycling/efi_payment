@@ -39,7 +39,7 @@ $paymentsArr = array();
 foreach ($branchControl as $key => $value) {
   $branchQ = $value['branch_code'];
 
-  if($branchQ === 'PSG.PMNT' || $branchQ === 'TNZ.PMNT' || $branch === 'MLVR.PMNT') {
+  if($branchQ === 'PSG.PMNT' || $branchQ === 'TNZ.PMNT' || $branchQ === 'MLVR.PMNT') {
     $startDateQ = date('Y-m-d', strtotime($startDate));
     $endDateQ = date('Y-m-d', strtotime($endDate));
   } else {
