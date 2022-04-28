@@ -50,7 +50,7 @@ $con->query("UPDATE payment SET maker_approved_noti='1' WHERE status='generated'
                                     <select name="branch" class="selectFilter">
                                         <option value="">All Branch</option>  
                                         <?php while ($res = $queryBranches->fetch_array()): ?>
-                                        <option value="<?= $res['branch_name'] ?>" <?= isset($_POST['branch']) ? 'selected' : '';  ?> ><?= $res['branch_name'] ?></option>
+                                        <option value="<?= $res['bcode'] ?>" <?= isset($_POST['branch']) ? 'selected' : '';  ?> ><?= $res['branch_name'] ?></option>
                                         <?php endwhile; ?>
                                     </select>
 
