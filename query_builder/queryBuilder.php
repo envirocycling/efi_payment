@@ -44,6 +44,8 @@ function getBHOnlinePayments($position, $branch, $initial, $from, $to, $status) 
 		}
 	}
 
+	var_dump($query);
+
 
 	$sql = $con->query($query);
 	// Fetch all
